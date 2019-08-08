@@ -1,17 +1,17 @@
-import Example from './Example';
+import Dashboard from './Dashboard';
 
-export const ExampleConfig = {
-    settings: {
-        layout: {
-            config: {}
-        }
-    },
-    routes  : [
-        {
-            path     : '/example',
-            component: Example
-        }
-    ]
+export const DashboardConfig = {
+  settings: {
+    layout: {
+      config: {}
+    }
+  },
+  routes: [
+    {
+      path: '/dashboard',
+      component: Dashboard
+    }
+  ]
 };
 
 /**

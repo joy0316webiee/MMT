@@ -23,6 +23,7 @@
     "firebase": "6.3.3",
     "formsy-react": "1.1.5",
     "google-map-react": "1.1.4",
+    "graphql": "^14.4.2",
     "jsonwebtoken": "8.5.1",
     "jss": "10.0.0-alpha.23",
     "jss-extend": "6.2.0",

@@ -11,7 +11,7 @@ import { ApolloProvider } from 'react-apollo';
 import App from 'app/App';
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql',
+  uri: 'https://mmt-hasura.herokuapp.com/v1/graphql',
   fetchOptions: {
     credentials: 'include'
   },
