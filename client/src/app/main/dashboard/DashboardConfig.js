@@ -1,4 +1,4 @@
-import Dashboard from './Dashboard';
+import React from 'react';
 
 export const DashboardConfig = {
   settings: {
@@ -9,7 +9,7 @@ export const DashboardConfig = {
   routes: [
     {
       path: '/dashboard',
-      component: Dashboard
+      component: React.lazy(() => import('./Dashboard'))
     }
   ]
 };

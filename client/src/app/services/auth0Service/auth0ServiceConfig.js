@@ -1,5 +1,5 @@
 export const AUTH_CONFIG = {
-    // domain     : "YOUR_DOMAIN",
-    // clientId   : "YOUR_CLIENT_ID",
-    // callbackUrl: "YOUR_DOMAIN/callback"
+  domain: process.env.REACT_APP_AUTH_DOMAIN,
+  clientId: process.env.REACT_APP_AUTH_CLIENTID,
+  callbackUrl: process.env.REACT_APP_AUTH_CALLBACKURL
 };
