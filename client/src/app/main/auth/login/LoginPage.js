@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Button, Card, CardContent, Checkbox, Divider, FormControl, FormControlLabel, TextField, Typography } from '@material-ui/core';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import { makeStyles } from '@material-ui/styles';
 import { FuseAnimate } from '@fuse';
 import { useForm } from '@fuse/hooks';
 import clsx from 'clsx';
-import { Link } from 'react-router-dom';
 
+import * as Actions from 'app/store/actions';
 import auth0Service from 'app/services/auth0Service';
 
 const useStyles = makeStyles(theme => ({
@@ -17,6 +19,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const LoginPage = () => {
+  const dispatch = useDispatch();
   const [hasAuth0, setHasAuth0] = useState(false);
 
   useEffect(() => {
@@ -41,9 +44,31 @@ const LoginPage = () => {
     event.preventDefault();
 
     if (hasAuth0) {
-      auth0Service.login(form);
+      auth0Service.login(form).catch(() => {
+        dispatch(
+          Actions.showMessage({
+            message: 'E-mail or incorrect password. Please try again!',
+            autoHideDuration: 5000,
+            anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'right'
+            },
+            variant: 'warning'
+          })
+        );
+      });
     } else {
-      alert('auth0 service went wrong.');
+      dispatch(
+        Actions.showMessage({
+          message: 'Auth0 server error. Please try again!',
+          autoHideDuration: 5000,
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right'
+          },
+          variant: 'warning'
+        })
+      );
     }
 
     resetForm();

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, Card, CardContent, Checkbox, FormControl, FormControlLabel, TextField, Typography } from '@material-ui/core';
 import { darken } from '@material-ui/core/styles/colorManipulator';
@@ -7,6 +8,7 @@ import { FuseAnimate } from '@fuse';
 import { useForm } from '@fuse/hooks';
 import clsx from 'clsx';
 
+import * as Actions from 'app/store/actions';
 import auth0Service from 'app/services/auth0Service';
 
 const useStyles = makeStyles(theme => ({
@@ -17,6 +19,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const RegisterPage = () => {
+  const dispatch = useDispatch();
   const [hasAuth0, setHasAuth0] = useState(false);
 
   useEffect(() => {
@@ -36,25 +39,91 @@ const RegisterPage = () => {
   });
 
   const isFormValid = () => {
-    return (
-      form.username.length > 0 &&
-      form.email.length > 0 &&
-      form.password.length > 7 &&
-      form.password === form.passwordConfirm &&
-      form.acceptTermsConditions
+    let errMessage = '';
+    if (form.username.length === 0 || form.email.length === 0 || form.password.length === 0) {
+      errMessage = 'Please fill out all gaps!';
+    } else if (form.password !== form.passwordConfirm) {
+      errMessage = "Password doesn't match.";
+    } else if (!form.acceptTermsConditions) {
+      errMessage = 'Please accept terms of use.';
+    } else {
+      return true;
+    }
+
+    dispatch(
+      Actions.showMessage({
+        message: errMessage,
+        autoHideDuration: 5000,
+        anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'right'
+        },
+        variant: 'warning'
+      })
     );
+    return false;
   };
 
   const handleSubmit = event => {
     event.preventDefault();
 
-    if (hasAuth0) {
-      auth0Service.register(form);
-    } else {
-      alert('auth0 service went wrong.');
-    }
+    if (!isFormValid()) return false;
 
-    resetForm();
+    if (hasAuth0) {
+      auth0Service
+        .register(form)
+        .then(() => {
+          resetForm();
+          dispatch(
+            Actions.showMessage({
+              message: 'Successfully registered!',
+              autoHideDuration: 5000,
+              anchorOrigin: {
+                vertical: 'top',
+                horizontal: 'right'
+              },
+              variant: 'success'
+            })
+          );
+        })
+        .catch(responseErr => {
+          console.log(responseErr);
+          let errMessage = 'Register failed!';
+          if (responseErr.hasOwnProperty('policy') && typeof responseErr.policy === 'string') {
+            errMessage = `${responseErr.policy}`;
+          } else if (responseErr.hasOwnProperty('message') && typeof responseErr.message === 'string') {
+            errMessage = `${responseErr.message}`;
+          } else if (responseErr.hasOwnProperty('description') && typeof responseErr.description === 'string') {
+            errMessage = `${responseErr.description}`;
+          } else if (responseErr.hasOwnProperty('name') && typeof responseErr.name === 'string') {
+            errMessage = `${responseErr.name}`;
+          }
+
+          dispatch(
+            Actions.showMessage({
+              message: errMessage,
+              autoHideDuration: 5000,
+              anchorOrigin: {
+                vertical: 'top',
+                horizontal: 'right'
+              },
+              variant: 'warning'
+            })
+          );
+        });
+    } else {
+      dispatch(
+        Actions.showMessage({
+          message: 'Auth0 server error. Please try again!',
+          autoHideDuration: 5000,
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right'
+          },
+          variant: 'warning'
+        })
+      );
+    }
   };
 
   return (
@@ -126,14 +195,7 @@ const RegisterPage = () => {
                   />
                 </FormControl>
 
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className="w-224 mx-auto mt-16"
-                  aria-label="Register"
-                  disabled={!isFormValid()}
-                  type="submit"
-                >
+                <Button variant="contained" color="primary" className="w-224 mx-auto mt-16" aria-label="Register" type="submit">
                   CREATE AN ACCOUNT
                 </Button>
               </form>

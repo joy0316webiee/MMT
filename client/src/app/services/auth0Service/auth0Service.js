@@ -23,43 +23,48 @@ class auth0Service {
       responseType: 'token id_token',
       scope: 'openid profile email'
     });
-    success(true);
+    success(!!this.auth0);
   }
 
   login = ({ email, password }) => {
-    if (!this.auth0) {
-      return false;
-    }
-
-    this.auth0.login(
-      {
-        realm: 'Username-Password-Authentication',
-        email,
-        password
-      },
-      err => {
-        if (err) return alert('Something went wrong: ' + err.message);
+    return new Promise((resolve, reject) => {
+      if (this.auth0) {
+        this.auth0.login(
+          {
+            realm: 'Username-Password-Authentication',
+            email,
+            password
+          },
+          err => {
+            if (err) reject(false);
+            else resolve(true);
+          }
+        );
+      } else {
+        reject(false);
       }
-    );
+    });
   };
 
   register = ({ username, email, password }) => {
-    if (!this.auth0) {
-      return false;
-    }
-
-    this.auth0.signup(
-      {
-        connection: 'Username-Password-Authentication',
-        username,
-        email,
-        password
-      },
-      err => {
-        if (err) return alert('Something went wrong:' + err.message);
-        return alert('success signup without login');
+    return new Promise((resolve, reject) => {
+      if (this.auth0) {
+        this.auth0.signup(
+          {
+            connection: 'Username-Password-Authentication',
+            username,
+            email,
+            password
+          },
+          err => {
+            if (err) reject(err);
+            else resolve();
+          }
+        );
+      } else {
+        reject({ err: { message: 'Auth0 server error. Please try again!' } });
       }
-    );
+    });
   };
 
   handleAuthentication = ({ location }, callback) => {
@@ -103,8 +108,7 @@ class auth0Service {
     if (!this.auth0) {
       return false;
     }
-    // Check whether the current time is past the
-    // access token's expiry time
+    // Check token's expiry time
     let expiresAt = JSON.parse(localStorage.getItem('auth0:expires_at'));
     if (!expiresAt) {
       return false;

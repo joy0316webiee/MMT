@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { FuseSplashScreen } from '@fuse';
+import { useDispatch } from 'react-redux';
+
 import history from '@history';
-import auth0Service from 'app/services/auth0Service';
 import * as userActions from 'app/auth/store/actions';
 import * as Actions from 'app/store/actions';
-import { useDispatch } from 'react-redux';
+import auth0Service from 'app/services/auth0Service';
 
 const Callback = props => {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const Callback = props => {
             dispatch(
               Actions.showMessage({
                 message: 'Welcome, success to login', //text or html
-                autoHideDuration: 6000, //ms
+                autoHideDuration: 5000, //ms
                 anchorOrigin: {
                   vertical: 'top', //top bottom
                   horizontal: 'right' //left center right
