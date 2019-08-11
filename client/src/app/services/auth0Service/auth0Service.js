@@ -62,7 +62,7 @@ class auth0Service {
           }
         );
       } else {
-        reject({ err: { message: 'Auth0 server error. Please try again!' } });
+        reject({ message: 'Auth0 server error. Please try again!' });
       }
     });
   };
