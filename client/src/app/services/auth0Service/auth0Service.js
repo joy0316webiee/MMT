@@ -7,11 +7,12 @@ import { AUTH_CONFIG } from './auth0ServiceConfig';
 class auth0Service {
   sdk = { auth0Manage: null };
 
-  init() {
+  init(success) {
     if (Object.entries(AUTH_CONFIG).length === 0 && AUTH_CONFIG.constructor === Object) {
       if (process.env.NODE_ENV === 'development') {
         console.warn('Missing Auth0 configuration at src/app/services/auth0Service/auth0ServiceConfig.js');
       }
+      success(false);
       return;
     }
 
@@ -20,8 +21,9 @@ class auth0Service {
       clientID: AUTH_CONFIG.clientId,
       redirectUri: AUTH_CONFIG.callbackUrl,
       responseType: 'token id_token',
-      scope: 'openid'
+      scope: 'openid profile email'
     });
+    success(true);
   }
 
   login = ({ email, password }) => {
@@ -36,11 +38,7 @@ class auth0Service {
         password
       },
       err => {
-        if (err) return alert('Something went wrong12313: ' + err.message);
-        else {
-          console.log('here###');
-          this.handleAuthentication();
-        }
+        if (err) return alert('Something went wrong: ' + err.message);
       }
     );
   };
@@ -58,26 +56,24 @@ class auth0Service {
         password
       },
       err => {
-        if (err) return alert('Something went wrong: ' + err.message);
-        return alert('success signup without login!');
-
-        // this.handleAuthentication();
+        if (err) return alert('Something went wrong:' + err.message);
+        return alert('success signup without login');
       }
     );
   };
 
-  handleAuthentication = () => {
+  handleAuthentication = ({ location }, callback) => {
     if (!this.auth0) {
-      return false;
+      return;
+    }
+    if (!/access_token|id_token|error/.test(location.hash)) {
+      return;
     }
 
-    this.auth0.parseHash((err, authResult) => {
+    this.auth0.parseHash({ hash: location.hash }, (err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
-        history.replace('/dashboard');
-      } else if (err) {
-        // history.replace('/login');
-        console.error(err);
+        callback();
       }
     });
   };
@@ -110,6 +106,10 @@ class auth0Service {
     // Check whether the current time is past the
     // access token's expiry time
     let expiresAt = JSON.parse(localStorage.getItem('auth0:expires_at'));
+    if (!expiresAt) {
+      return false;
+    }
+
     const isNotExpired = new Date().getTime() < expiresAt;
     if (isNotExpired) {
       return true;
@@ -121,26 +121,9 @@ class auth0Service {
 
   getUserData = () => {
     return new Promise((resolve, reject) => {
-      const tokenData = this.getTokenData();
-      const { sub: userId } = tokenData;
-
-      const auth0UserUrl = 'https://' + AUTH_CONFIG.domain + '/api/v2/users/' + userId;
-
-      axios
-        .get(auth0UserUrl, {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + this.getAccessToken()
-          }
-        })
-        .then(response => {
-          resolve(response.data);
-        })
-        .catch(error => {
-          // handle error
-          console.warn('Cannot retrieve user data', error);
-          reject(error);
-        });
+      this.auth0.client.userInfo(this.getAccessToken(), (err, user) => {
+        resolve(user);
+      });
     });
   };
 
@@ -160,11 +143,11 @@ class auth0Service {
   };
 
   getAccessToken = () => {
-    return localStorage.getItem('access_token');
+    return localStorage.getItem('auth0:access_token');
   };
 
   getIdToken = () => {
-    return window.localStorage.getItem('id_token');
+    return window.localStorage.getItem('auth0:id_token');
   };
 
   getTokenData = () => {

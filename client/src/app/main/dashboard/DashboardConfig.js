@@ -1,3 +1,4 @@
+import { authRoles } from 'app/auth';
 import React from 'react';
 
 export const DashboardConfig = {
@@ -6,6 +7,7 @@ export const DashboardConfig = {
       config: {}
     }
   },
+  auth: authRoles.user,
   routes: [
     {
       path: '/dashboard',

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Card, CardContent, Checkbox, Divider, FormControl, FormControlLabel, TextField, Typography } from '@material-ui/core';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import { makeStyles } from '@material-ui/styles';
@@ -17,7 +17,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const LoginPage = () => {
-  useEffect(() => auth0Service.init(), []);
+  const [hasAuth0, setHasAuth0] = useState(false);
+
+  useEffect(() => {
+    auth0Service.init(success => {
+      setHasAuth0(success);
+    });
+  }, []);
 
   const classes = useStyles();
 
@@ -33,7 +39,13 @@ const LoginPage = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    auth0Service.login(form);
+
+    if (hasAuth0) {
+      auth0Service.login(form);
+    } else {
+      alert('auth0 service went wrong.');
+    }
+
     resetForm();
   };
 

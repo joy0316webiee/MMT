@@ -4,8 +4,9 @@ import { FuseUtils } from '@fuse';
 import { LoginPageConfig } from 'app/main/auth/login/LoginPageConfig';
 import { RegisterPageConfig } from 'app/main/auth/register/RegisterPageConfig';
 import { DashboardConfig } from 'app/main/dashboard/DashboardConfig';
+import { CallbackConfig } from 'app/main/callback/CallbackConfig';
 
-const routeConfigs = [LoginPageConfig, RegisterPageConfig, DashboardConfig];
+const routeConfigs = [LoginPageConfig, RegisterPageConfig, DashboardConfig, CallbackConfig];
 
 const routes = [
   ...FuseUtils.generateRoutesFromConfigs(routeConfigs),

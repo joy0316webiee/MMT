@@ -6,7 +6,7 @@ const styles = theme => ({
   layoutRoot: {}
 });
 
-class Example extends Component {
+class Dashboard extends Component {
   render() {
     const { classes } = this.props;
     return (
@@ -36,4 +36,4 @@ class Example extends Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(Example);
+export default withStyles(styles, { withTheme: true })(Dashboard);
