@@ -8,7 +8,7 @@ import * as ReactDOM from 'react-dom';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 
-import App from 'app/App';
+import App from './app/App';
 
 const client = new ApolloClient({
   uri: 'https://mmt-hasura.herokuapp.com/v1/graphql',

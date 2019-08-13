@@ -16,5 +16,7 @@
     "noEmit": true,
     "jsx": "preserve"
   },
-  "include": ["src"]
+  "compileOnSave": true,
+  "include": ["src/app/**/*"],
+  "exclude": ["node_modules", "src/@*/*"]
 }
