@@ -1,10 +1,10 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 import QuickPanel from 'app/fuse-layouts/shared-components/quickPanel/QuickPanel';
 
-const RightSideLayout1: React.FC = () => (
-  <React.Fragment>
+const RightSideLayout1: FC = () => (
+  <>
     <QuickPanel />
-  </React.Fragment>
+  </>
 );
 
 export default RightSideLayout1;

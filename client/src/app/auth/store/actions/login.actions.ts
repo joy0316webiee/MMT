@@ -2,11 +2,12 @@ import firebaseService from 'app/services/firebaseService';
 import jwtService from 'app/services/jwtService';
 import { setUserData } from './user.actions';
 import * as Actions from 'app/store/actions';
+import { ILoginParams, ILoginWithFireBaseParams } from './types';
 
 export const LOGIN_ERROR = 'LOGIN_ERROR';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 
-export const submitLogin = ({ email, password }: any) => {
+export const submitLogin = ({ email, password }: ILoginParams) => {
   return (dispatch: any) =>
     jwtService
       .signInWithEmailAndPassword(email, password)
@@ -25,7 +26,10 @@ export const submitLogin = ({ email, password }: any) => {
       });
 };
 
-export const submitLoginWithFireBase = ({ username, password }: any) => {
+export const submitLoginWithFireBase = ({
+  username,
+  password
+}: ILoginWithFireBaseParams) => {
   return (dispatch: any) =>
     firebaseService.auth &&
     firebaseService.auth

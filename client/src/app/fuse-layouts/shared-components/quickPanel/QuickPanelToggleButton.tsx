@@ -1,13 +1,16 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 import { Icon, IconButton } from '@material-ui/core';
 import * as quickPanelActions from './store/actions';
 import { useDispatch } from 'react-redux';
 
-const QuickPanelToggleButton: React.FC = props => {
+const QuickPanelToggleButton: FC = props => {
   const dispatch = useDispatch();
 
   return (
-    <IconButton className="w-64 h-64" onClick={ev => dispatch(quickPanelActions.toggleQuickPanel())}>
+    <IconButton
+      className="w-64 h-64"
+      onClick={ev => dispatch(quickPanelActions.toggleQuickPanel())}
+    >
       {props.children}
     </IconButton>
   );

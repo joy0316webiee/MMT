@@ -1,5 +1,5 @@
+import React from 'react';
 import { authRoles } from 'app/auth';
-import Callback from './Callback';
 
 export const CallbackConfig = {
   settings: {
@@ -27,7 +27,7 @@ export const CallbackConfig = {
   routes: [
     {
       path: '/callback',
-      component: Callback
+      component: React.lazy(() => import('./Callback'))
     }
   ]
 };

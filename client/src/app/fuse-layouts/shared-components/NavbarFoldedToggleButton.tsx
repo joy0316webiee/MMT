@@ -1,16 +1,15 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Icon, IconButton } from '@material-ui/core';
 import _ from '@lodash';
 
 import * as Actions from 'app/store/actions';
+import { INavbarFoldedToggleButtonProps } from './types';
 
-interface IProps {
-  className: string;
-  children?: React.ReactNode;
-}
-
-const NavbarFoldedToggleButton: React.FC<IProps> = ({ className, children }) => {
+const NavbarFoldedToggleButton: FC<INavbarFoldedToggleButtonProps> = ({
+  className,
+  children
+}) => {
   const dispatch = useDispatch();
   const settings = useSelector(({ fuse }: any) => fuse.settings.current);
 
@@ -18,7 +17,15 @@ const NavbarFoldedToggleButton: React.FC<IProps> = ({ className, children }) => 
     <IconButton
       className={className}
       onClick={() => {
-        dispatch(Actions.setDefaultSettings(_.set({}, 'layout.config.navbar.folded', !settings.layout.config.navbar.folded)));
+        dispatch(
+          Actions.setDefaultSettings(
+            _.set(
+              {},
+              'layout.config.navbar.folded',
+              !settings.layout.config.navbar.folded
+            )
+          )
+        );
       }}
       color="inherit"
     >

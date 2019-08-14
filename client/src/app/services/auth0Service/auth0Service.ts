@@ -4,13 +4,17 @@ import jwtDecode from 'jwt-decode';
 import axios from 'axios';
 import { AUTH_CONFIG } from './auth0ServiceConfig';
 
+import { ILoginParams, IRegisterWithAuth0Params } from 'app/auth/store/actions/types';
+
 class auth0Service {
   auth0: Auth0.WebAuth | undefined;
 
   init(success: any) {
     if (Object.entries(AUTH_CONFIG).length === 0 && AUTH_CONFIG.constructor === Object) {
       if (process.env.NODE_ENV === 'development') {
-        console.warn('Missing Auth0 configuration at src/app/services/auth0Service/auth0ServiceConfig.js');
+        console.warn(
+          'Missing Auth0 configuration at src/app/services/auth0Service/auth0ServiceConfig.js'
+        );
       }
       success(false);
       return;
@@ -26,7 +30,7 @@ class auth0Service {
     success(!!this.auth0);
   }
 
-  login = ({ email, password }: any) => {
+  login = ({ email, password }: ILoginParams) => {
     return new Promise((resolve, reject) => {
       this.cleanStorage();
 
@@ -48,7 +52,7 @@ class auth0Service {
     });
   };
 
-  register = ({ username, email, password }: any) => {
+  register = ({ username, email, password }: IRegisterWithAuth0Params) => {
     return new Promise((resolve, reject) => {
       if (this.auth0) {
         this.auth0.signup(

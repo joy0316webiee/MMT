@@ -19,26 +19,38 @@ import FuseThemesConfig from 'app/fuse-configs/themesConfig';
  * SETTINGS
  */
 const getInitialSettings = () => {
-  const defaultLayoutStyle = FuseSettingsConfig.layout && FuseSettingsConfig.layout.style ? FuseSettingsConfig.layout.style : 'layout1';
+  const defaultLayoutStyle =
+    FuseSettingsConfig.layout && FuseSettingsConfig.layout.style
+      ? FuseSettingsConfig.layout.style
+      : 'layout1';
   const layout = {
     style: defaultLayoutStyle,
     config: (FuseLayoutConfigs as any)[defaultLayoutStyle].defaults
   };
-  return _.merge({}, defaultSettings, { layout }, FuseSettingsConfig, getParsedQuerySettings());
+  return _.merge(
+    {},
+    defaultSettings,
+    { layout },
+    FuseSettingsConfig,
+    getParsedQuerySettings()
+  );
 };
 
 /**
  * THEMES
  */
 const getInitialThemes = () => {
-  const themesObj: any = Object.keys(FuseThemesConfig).length !== 0 ? FuseThemesConfig : defaultThemes;
+  const themesObj: any =
+    Object.keys(FuseThemesConfig).length !== 0 ? FuseThemesConfig : defaultThemes;
 
   const themes = Object.assign(
     {},
     ...Object.entries(themesObj).map(([key, value]) => {
       const muiTheme = _.merge({}, defaultThemeOptions, value, mustHaveThemeOptions);
       return {
-        [key]: createMuiTheme(_.merge({}, muiTheme, { mixins: extendThemeWithMixins(muiTheme) }))
+        [key]: createMuiTheme(
+          _.merge({}, muiTheme, { mixins: extendThemeWithMixins(muiTheme) })
+        )
       };
     })
   );
@@ -50,7 +62,8 @@ const getInitialThemes = () => {
 };
 
 const updateMainThemeVariations = (mainTheme: any) => {
-  const themesObj: any = Object.keys(FuseThemesConfig).length !== 0 ? FuseThemesConfig : defaultThemes;
+  const themesObj: any =
+    Object.keys(FuseThemesConfig).length !== 0 ? FuseThemesConfig : defaultThemes;
   return mainThemeVariations(themesObj[mainTheme]);
 };
 
@@ -82,7 +95,11 @@ const settings = (state = initialState, action: any) => {
         {},
         state.current,
         action.value && action.value.layout && action.value.layout.style
-          ? { layout: { config: (FuseLayoutConfigs as any)[action.value.layout.style].defaults } }
+          ? {
+              layout: {
+                config: (FuseLayoutConfigs as any)[action.value.layout.style].defaults
+              }
+            }
           : {},
         action.value
       );
@@ -105,7 +122,11 @@ const settings = (state = initialState, action: any) => {
         {},
         state.defaults,
         action.value && action.value.layout && action.value.layout.style
-          ? { layout: { config: (FuseLayoutConfigs as any)[action.value.layout.style].defaults } }
+          ? {
+              layout: {
+                config: (FuseLayoutConfigs as any)[action.value.layout.style].defaults
+              }
+            }
           : {},
         action.value
       );
@@ -122,7 +143,10 @@ const settings = (state = initialState, action: any) => {
       };
     }
     case Actions.RESET_DEFAULT_SETTINGS: {
-      const themes = { ...state.themes, ...updateMainThemeVariations(state.defaults.theme.main) };
+      const themes = {
+        ...state.themes,
+        ...updateMainThemeVariations(state.defaults.theme.main)
+      };
       return {
         ...state,
         defaults: _.merge({}, state.defaults),

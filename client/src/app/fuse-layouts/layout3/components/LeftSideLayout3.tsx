@@ -1,13 +1,14 @@
-import * as React from 'react';
-// import { FuseShortcuts, FuseSidePanel } from '@fuse';
-const { FuseShortcuts, FuseSidePanel } = require('@fuse');
+import React, { FC } from 'react';
+import * as fuse from '@fuse';
 
-const LeftSideLayout3: React.FC = () => (
-  <React.Fragment>
+const { FuseShortcuts, FuseSidePanel }: any = fuse;
+
+const LeftSideLayout3: FC = () => (
+  <>
     <FuseSidePanel>
       <FuseShortcuts className="py-16 px-8" variant="vertical" />
     </FuseSidePanel>
-  </React.Fragment>
+  </>
 );
 
 export default LeftSideLayout3;

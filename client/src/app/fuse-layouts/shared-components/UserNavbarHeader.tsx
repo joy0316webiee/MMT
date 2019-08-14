@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { AppBar, Avatar, Typography } from '@material-ui/core';
@@ -37,7 +37,7 @@ const useStyles = makeStyles(
   })
 );
 
-const UserNavbarHeader: React.FC = () => {
+const UserNavbarHeader: FC = () => {
   const user = useSelector(({ auth }: any) => auth.user);
 
   const classes: any = useStyles();
@@ -53,13 +53,20 @@ const UserNavbarHeader: React.FC = () => {
       <Typography className="username text-16 whitespace-no-wrap" color="inherit">
         {user.data.displayName}
       </Typography>
-      <Typography className="email text-13 mt-8 opacity-50 whitespace-no-wrap" color="inherit">
+      <Typography
+        className="email text-13 mt-8 opacity-50 whitespace-no-wrap"
+        color="inherit"
+      >
         {user.data.email}
       </Typography>
       <Avatar
         className={clsx(classes.avatar, 'avatar')}
         alt="user photo"
-        src={user.data.photoURL && user.data.photoURL !== '' ? user.data.photoURL : 'assets/images/avatars/profile.jpg'}
+        src={
+          user.data.photoURL && user.data.photoURL !== ''
+            ? user.data.photoURL
+            : 'assets/images/avatars/profile.jpg'
+        }
       />
     </AppBar>
   );

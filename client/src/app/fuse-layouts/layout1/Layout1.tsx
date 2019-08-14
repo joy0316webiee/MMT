@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React, { FC, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { renderRoutes } from 'react-router-config';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
-// import { FuseScrollbars, FuseMessage, FuseDialog, FuseSuspense } from '@fuse';
+import * as fuse from '@fuse';
 
 import SettingsPanel from 'app/fuse-layouts/shared-components/SettingsPanel';
 import AppContext from 'app/AppContext';
@@ -13,7 +13,7 @@ import LeftSideLayout1 from './components/LeftSideLayout1';
 import RightSideLayout1 from './components/RightSideLayout1';
 import NavbarWrapperLayout1 from './components/NavbarWrapperLayout1';
 
-const { FuseScrollbars, FuseMessage, FuseDialog, FuseSuspense } = require('@fuse');
+const { FuseScrollbars, FuseMessage, FuseDialog, FuseSuspense }: any = fuse;
 
 const useStyles = makeStyles(
   (theme: any): any => ({
@@ -82,32 +82,41 @@ const useStyles = makeStyles(
   })
 );
 
-const Layout1: React.FC = props => {
+const Layout1: FC = props => {
   const config = useSelector(({ fuse }: any) => fuse.settings.current.layout.config);
 
-  const appContext = React.useContext(AppContext);
+  const appContext = useContext(AppContext);
   const classes: any = useStyles(props);
   const { routes }: any = appContext;
-
-  // console.warn('FuseLayout:: rendered');
 
   switch (config.scroll) {
     case 'body': {
       return (
-        <div id="fuse-layout" className={clsx(classes.root, config.mode, 'scroll-' + config.scroll)}>
+        <div
+          id="fuse-layout"
+          className={clsx(classes.root, config.mode, 'scroll-' + config.scroll)}
+        >
           {config.leftSidePanel.display && <LeftSideLayout1 />}
 
           <div className="flex flex-1 flex-col overflow-hidden relative">
-            {config.toolbar.display && config.toolbar.style === 'fixed' && config.toolbar.position === 'above' && <ToolbarLayout1 />}
+            {config.toolbar.display &&
+              config.toolbar.style === 'fixed' &&
+              config.toolbar.position === 'above' && <ToolbarLayout1 />}
 
             <FuseScrollbars className="overflow-auto" scrollToTopOnChildChange>
-              {config.toolbar.display && config.toolbar.style !== 'fixed' && config.toolbar.position === 'above' && <ToolbarLayout1 />}
+              {config.toolbar.display &&
+                config.toolbar.style !== 'fixed' &&
+                config.toolbar.position === 'above' && <ToolbarLayout1 />}
 
               <div className={classes.wrapper}>
-                {config.navbar.display && config.navbar.position === 'left' && <NavbarWrapperLayout1 />}
+                {config.navbar.display && config.navbar.position === 'left' && (
+                  <NavbarWrapperLayout1 />
+                )}
 
                 <div className={classes.contentWrapper}>
-                  {config.toolbar.display && config.toolbar.position === 'below' && <ToolbarLayout1 />}
+                  {config.toolbar.display && config.toolbar.position === 'below' && (
+                    <ToolbarLayout1 />
+                  )}
 
                   <div className={classes.content}>
                     <FuseDialog />
@@ -117,18 +126,25 @@ const Layout1: React.FC = props => {
                     {props.children}
                   </div>
 
-                  {config.footer.display && config.footer.position === 'below' && <FooterLayout1 />}
+                  {config.footer.display && config.footer.position === 'below' && (
+                    <FooterLayout1 />
+                  )}
 
                   <SettingsPanel />
                 </div>
 
-                {config.navbar.display && config.navbar.position === 'right' && <NavbarWrapperLayout1 />}
+                {config.navbar.display && config.navbar.position === 'right' && (
+                  <NavbarWrapperLayout1 />
+                )}
               </div>
 
-              {config.footer.display && config.footer.style !== 'fixed' && config.footer.position === 'above' && <FooterLayout1 />}
+              {config.footer.display &&
+                config.footer.style !== 'fixed' &&
+                config.footer.position === 'above' && <FooterLayout1 />}
             </FuseScrollbars>
-
-            {config.footer.display && config.footer.style === 'fixed' && config.footer.position === 'above' && <FooterLayout1 />}
+            {config.footer.display &&
+              config.footer.style === 'fixed' &&
+              config.footer.position === 'above' && <FooterLayout1 />}
           </div>
 
           {config.rightSidePanel.display && <RightSideLayout1 />}
@@ -140,20 +156,31 @@ const Layout1: React.FC = props => {
     case 'content':
     default: {
       return (
-        <div id="fuse-layout" className={clsx(classes.root, config.mode, 'scroll-' + config.scroll)}>
+        <div
+          id="fuse-layout"
+          className={clsx(classes.root, config.mode, 'scroll-' + config.scroll)}
+        >
           {config.leftSidePanel.display && <LeftSideLayout1 />}
 
           <div className="flex flex-1 flex-col overflow-hidden relative">
-            {config.toolbar.display && config.toolbar.position === 'above' && <ToolbarLayout1 />}
+            {config.toolbar.display && config.toolbar.position === 'above' && (
+              <ToolbarLayout1 />
+            )}
 
             <div className={classes.wrapper}>
-              {config.navbar.display && config.navbar.position === 'left' && <NavbarWrapperLayout1 />}
+              {config.navbar.display && config.navbar.position === 'left' && (
+                <NavbarWrapperLayout1 />
+              )}
 
               <div className={classes.contentWrapper}>
-                {config.toolbar.display && config.toolbar.position === 'below' && config.toolbar.style === 'fixed' && <ToolbarLayout1 />}
+                {config.toolbar.display &&
+                  config.toolbar.position === 'below' &&
+                  config.toolbar.style === 'fixed' && <ToolbarLayout1 />}
 
                 <FuseScrollbars className={classes.content} scrollToTopOnChildChange>
-                  {config.toolbar.display && config.toolbar.position === 'below' && config.toolbar.style !== 'fixed' && <ToolbarLayout1 />}
+                  {config.toolbar.display &&
+                    config.toolbar.position === 'below' &&
+                    config.toolbar.style !== 'fixed' && <ToolbarLayout1 />}
 
                   <FuseDialog />
 
@@ -161,18 +188,24 @@ const Layout1: React.FC = props => {
 
                   {props.children}
 
-                  {config.footer.display && config.footer.position === 'below' && config.footer.style !== 'fixed' && <FooterLayout1 />}
+                  {config.footer.display &&
+                    config.footer.position === 'below' &&
+                    config.footer.style !== 'fixed' && <FooterLayout1 />}
                 </FuseScrollbars>
-
-                {config.footer.display && config.footer.position === 'below' && config.footer.style === 'fixed' && <FooterLayout1 />}
-
+                {config.footer.display &&
+                  config.footer.position === 'below' &&
+                  config.footer.style === 'fixed' && <FooterLayout1 />}
                 <SettingsPanel />
               </div>
 
-              {config.navbar.display && config.navbar.position === 'right' && <NavbarWrapperLayout1 />}
+              {config.navbar.display && config.navbar.position === 'right' && (
+                <NavbarWrapperLayout1 />
+              )}
             </div>
 
-            {config.footer.display && config.footer.position === 'above' && <FooterLayout1 />}
+            {config.footer.display && config.footer.position === 'above' && (
+              <FooterLayout1 />
+            )}
           </div>
 
           {config.rightSidePanel.display && <RightSideLayout1 />}

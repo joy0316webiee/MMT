@@ -1,4 +1,6 @@
-import { FuseUtils } from '@fuse';
+import * as fuse from '@fuse';
+
+const { FuseUtils }: any = fuse;
 
 export const GET_NAVIGATION = '[NAVIGATION] GET NAVIGATION';
 export const SET_NAVIGATION = '[NAVIGATION] SET NAVIGATION';

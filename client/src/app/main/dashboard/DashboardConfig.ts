@@ -1,5 +1,5 @@
+import React from 'react';
 import { authRoles } from 'app/auth';
-import * as React from 'react';
 
 export const DashboardConfig = {
   settings: {

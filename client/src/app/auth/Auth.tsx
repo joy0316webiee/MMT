@@ -1,28 +1,19 @@
-import * as React from 'react';
+import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { FuseSplashScreen } from '@fuse';
+import * as fuse from '@fuse';
 
 import * as userActions from 'app/auth/store/actions';
 import * as Actions from 'app/store/actions';
 import firebaseService from 'app/services/firebaseService';
 import auth0Service from 'app/services/auth0Service';
 import jwtService from 'app/services/jwtService';
+import { IAuthProps, IAuthState } from './types';
 
-interface IProps {
-  logout: () => (dispatch: any, getState: any) => null | undefined;
-  setUserData: (user: any) => (dispatch: any) => void;
-  setUserDataAuth0: (tokenData: any) => (dispatch: any) => void;
-  setUserDataFirebase: (user: any, authUser: any) => (dispatch: any, getState: any) => any;
-  showMessage: (options: any) => void;
-  hideMessage: () => void;
-}
+const { FuseSplashScreen }: any = fuse;
 
-interface IState {
-  waitAuthCheck: boolean;
-}
-class Auth extends React.Component<IProps, IState> {
-  state: IState = {
+class Auth extends Component<IAuthProps, IAuthState> {
+  state: IAuthState = {
     waitAuthCheck: true
   };
 
@@ -82,7 +73,7 @@ class Auth extends React.Component<IProps, IState> {
 
   auth0Check = () =>
     new Promise(resolve => {
-      auth0Service.init((success: any) => {
+      auth0Service.init((success: boolean) => {
         if (!success) {
           resolve();
         }
@@ -106,7 +97,7 @@ class Auth extends React.Component<IProps, IState> {
 
   firebaseCheck = () =>
     new Promise(resolve => {
-      firebaseService.init((success: any) => {
+      firebaseService.init((success: boolean) => {
         if (!success) {
           resolve();
         }
@@ -140,7 +131,7 @@ class Auth extends React.Component<IProps, IState> {
     });
 
   render() {
-    return this.state.waitAuthCheck ? <FuseSplashScreen /> : <React.Fragment children={this.props.children} />;
+    return this.state.waitAuthCheck ? <FuseSplashScreen /> : <>{this.props.children}</>;
   }
 }
 

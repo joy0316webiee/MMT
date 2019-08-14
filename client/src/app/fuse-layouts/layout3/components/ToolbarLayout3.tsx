@@ -1,13 +1,15 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { AppBar, Hidden, Toolbar } from '@material-ui/core';
 import { makeStyles, ThemeProvider } from '@material-ui/styles';
-import { FuseSearch } from '@fuse';
+import * as fuse from '@fuse';
 
 import NavbarMobileToggleButton from 'app/fuse-layouts/shared-components/NavbarMobileToggleButton';
 import QuickPanelToggleButton from 'app/fuse-layouts/shared-components/quickPanel/QuickPanelToggleButton';
 import Logo from 'app/fuse-layouts/shared-components/Logo';
+
+const { FuseSearch }: any = fuse;
 
 const useStyles = makeStyles((theme: any) => ({
   separator: {
@@ -17,7 +19,7 @@ const useStyles = makeStyles((theme: any) => ({
   }
 }));
 
-const ToolbarLayout3: React.FC = props => {
+const ToolbarLayout3: FC = props => {
   const config = useSelector(({ fuse }: any) => fuse.settings.current.layout.config);
   const toolbarTheme = useSelector(({ fuse }: any) => fuse.settings.toolbarTheme);
 

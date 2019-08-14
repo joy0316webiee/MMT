@@ -2,11 +2,12 @@ import firebaseService from 'app/services/firebaseService';
 import * as UserActions from './user.actions';
 import * as Actions from 'app/store/actions';
 import jwtService from 'app/services/jwtService';
+import { IRegisterParams, IRegisterWithFirebaseParams } from './types';
 
 export const REGISTER_ERROR = 'REGISTER_ERROR';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 
-export const submitRegister = ({ displayName, password, email }: any) => {
+export const submitRegister = ({ displayName, password, email }: IRegisterParams) => {
   return (dispatch: any) =>
     jwtService
       .createUser({
@@ -28,8 +29,9 @@ export const submitRegister = ({ displayName, password, email }: any) => {
       });
 };
 
-export const registerWithFirebase = (model: any) => {
+export const registerWithFirebase = (model: IRegisterWithFirebaseParams) => {
   const { email, password, displayName } = model;
+
   return (dispatch: any) =>
     firebaseService.auth &&
     firebaseService.auth
@@ -48,7 +50,11 @@ export const registerWithFirebase = (model: any) => {
         });
       })
       .catch(error => {
-        const usernameErrorCodes = ['auth/operation-not-allowed', 'auth/user-not-found', 'auth/user-disabled'];
+        const usernameErrorCodes = [
+          'auth/operation-not-allowed',
+          'auth/user-not-found',
+          'auth/user-disabled'
+        ];
 
         const emailErrorCodes = ['auth/email-already-in-use', 'auth/invalid-email'];
 

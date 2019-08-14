@@ -1,20 +1,19 @@
-import * as React from 'react';
+import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-// import { FusePageSimple, DemoContent } from '@fuse';
+import * as fuse from '@fuse';
 
-const { FusePageSimple, DemoContent } = require('@fuse');
+import { IDashboardProps } from './types';
+
+const { FusePageSimple, DemoContent }: any = fuse;
 
 const styles = (theme: any) => ({
   layoutRoot: {}
 });
 
-interface IProps {
-  classes: any;
-}
-
-class Dashboard extends React.Component<IProps, {}> {
+class Dashboard extends Component<IDashboardProps, {}> {
   render() {
     const { classes } = this.props;
+
     return (
       <FusePageSimple
         classes={{

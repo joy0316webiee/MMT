@@ -1,14 +1,17 @@
-import * as React from 'react';
-import { FuseAuthorization, FuseLayout, FuseTheme } from '@fuse';
+import React, { FC } from 'react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
-import history from '@history';
-import { Auth } from './auth';
-import store from './store';
-import AppContext from './AppContext';
-import routes from './fuse-configs/routesConfig';
 import { create } from 'jss';
 import { StylesProvider, jssPreset, createGenerateClassName } from '@material-ui/styles';
+import * as fuse from '@fuse';
+
+import history from '@history';
+import routes from './fuse-configs/routesConfig';
+import AppContext from './AppContext';
+import store from './store';
+import { Auth } from './auth';
+
+const { FuseAuthorization, FuseLayout, FuseTheme }: any = fuse;
 
 const jss = create({
   ...jssPreset(),
@@ -18,7 +21,7 @@ const jss = create({
 
 const generateClassName = createGenerateClassName();
 
-const App = () => {
+const App: FC = () => {
   return (
     <AppContext.Provider
       value={{

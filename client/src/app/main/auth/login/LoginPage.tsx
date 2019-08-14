@@ -1,30 +1,46 @@
-import * as React from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
-import { Button, Card, CardContent, Checkbox, Divider, FormControl, FormControlLabel, TextField, Typography } from '@material-ui/core';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import { makeStyles } from '@material-ui/styles';
-// import { FuseAnimate } from '@fuse';
+import {
+  Button,
+  Card,
+  CardContent,
+  Checkbox,
+  Divider,
+  FormControl,
+  FormControlLabel,
+  TextField,
+  Typography
+} from '@material-ui/core';
+import * as fuse from '@fuse';
 import { useForm } from '@fuse/hooks';
 
 import * as Actions from 'app/store/actions';
 import auth0Service from 'app/services/auth0Service';
+import { SubmitEvent } from 'app/types';
 
-const { FuseAnimate } = require('@fuse');
+const { FuseAnimate }: any = fuse;
 
 const useStyles = makeStyles((theme: any) => ({
   root: {
-    background: 'radial-gradient(' + darken(theme.palette.primary.dark, 0.5) + ' 0%, ' + theme.palette.primary.dark + ' 80%)',
+    background:
+      'radial-gradient(' +
+      darken(theme.palette.primary.dark, 0.5) +
+      ' 0%, ' +
+      theme.palette.primary.dark +
+      ' 80%)',
     color: theme.palette.primary.contrastText
   }
 }));
 
-const LoginPage: React.FC = () => {
+const LoginPage: FC = () => {
   const dispatch = useDispatch();
-  const [hasAuth0, setHasAuth0] = React.useState(false);
+  const [hasAuth0, setHasAuth0] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     auth0Service.init((success: any) => {
       setHasAuth0(success);
     });
@@ -42,7 +58,7 @@ const LoginPage: React.FC = () => {
     return form.email.length > 0 && form.password.length > 0;
   };
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: SubmitEvent): void => {
     event.preventDefault();
 
     if (hasAuth0) {
@@ -77,7 +93,12 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className={clsx(classes.root, 'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-32')}>
+    <div
+      className={clsx(
+        classes.root,
+        'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-32'
+      )}
+    >
       <div className="flex flex-col items-center justify-center w-full">
         <FuseAnimate animation="transition.expandIn">
           <Card className="w-full max-w-384">
@@ -88,7 +109,12 @@ const LoginPage: React.FC = () => {
                 LOGIN TO YOUR ACCOUNT
               </Typography>
 
-              <form name="loginForm" noValidate className="flex flex-col justify-center w-full" onSubmit={handleSubmit}>
+              <form
+                name="loginForm"
+                noValidate
+                className="flex flex-col justify-center w-full"
+                onSubmit={handleSubmit}
+              >
                 <TextField
                   className="mb-16"
                   label="Email"
@@ -116,7 +142,16 @@ const LoginPage: React.FC = () => {
 
                 <div className="flex items-center justify-between">
                   <FormControl>
-                    <FormControlLabel control={<Checkbox name="remember" checked={form.remember} onChange={handleChange} />} label="Remember Me" />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          name="remember"
+                          checked={form.remember}
+                          onChange={handleChange}
+                        />
+                      }
+                      label="Remember Me"
+                    />
                   </FormControl>
 
                   <Link className="font-medium" to="/pages/auth/forgot-password">

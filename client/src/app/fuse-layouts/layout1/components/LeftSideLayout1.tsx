@@ -1,5 +1,5 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 
-const LeftSideLayout1: React.FC = () => <React.Fragment />;
+const LeftSideLayout1: FC = () => <></>;
 
 export default LeftSideLayout1;

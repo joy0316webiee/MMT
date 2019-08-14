@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { Drawer, Hidden } from '@material-ui/core';
@@ -118,7 +118,7 @@ const useStyles = makeStyles(
   })
 );
 
-const NavbarWrapperLayout1: React.FC = () => {
+const NavbarWrapperLayout1: FC = () => {
   const dispatch = useDispatch();
   const config = useSelector(({ fuse }: any) => fuse.settings.current.layout.config);
   const navbarTheme = useSelector(({ fuse }: any) => fuse.settings.navbarTheme);
@@ -132,7 +132,10 @@ const NavbarWrapperLayout1: React.FC = () => {
 
   return (
     <ThemeProvider theme={navbarTheme}>
-      <div id="fuse-navbar" className={clsx(classes.wrapper, folded && classes.wrapperFolded)}>
+      <div
+        id="fuse-navbar"
+        className={clsx(classes.wrapper, folded && classes.wrapperFolded)}
+      >
         <Hidden mdDown>
           <div
             className={clsx(

@@ -23,8 +23,14 @@ export const setUserDataAuth0 = (tokenData: any) => {
       displayName: tokenData.name,
       photoURL: tokenData.picture,
       email: tokenData.email,
-      settings: tokenData.user_metadata && tokenData.user_metadata.settings ? tokenData.user_metadata.settings : {},
-      shortcuts: tokenData.user_metadata && tokenData.user_metadata.shortcuts ? tokenData.user_metadata.shortcuts : []
+      settings:
+        tokenData.user_metadata && tokenData.user_metadata.settings
+          ? tokenData.user_metadata.settings
+          : {},
+      shortcuts:
+        tokenData.user_metadata && tokenData.user_metadata.shortcuts
+          ? tokenData.user_metadata.shortcuts
+          : []
     }
   };
 
@@ -35,7 +41,14 @@ export const setUserDataAuth0 = (tokenData: any) => {
  * Set user data from Firebase data
  */
 export const setUserDataFirebase = (user: any, authUser: any) => {
-  if (user && user.data && user.data.settings && user.data.settings.theme && user.data.settings.layout && user.data.settings.layout.style) {
+  if (
+    user &&
+    user.data &&
+    user.data.settings &&
+    user.data.settings.theme &&
+    user.data.settings.layout &&
+    user.data.settings.layout.style
+  ) {
     // Set user data but do not update
     return setUserData(user);
   } else {

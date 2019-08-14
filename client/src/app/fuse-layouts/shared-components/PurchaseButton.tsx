@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 import { Button, Icon } from '@material-ui/core';
 
-const PurchaseButton: React.FC = () => (
+const PurchaseButton: FC = () => (
   <Button
     component="a"
     href="https://1.envato.market/zDGL6"

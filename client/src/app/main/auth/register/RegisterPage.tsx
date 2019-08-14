@@ -1,30 +1,45 @@
-import * as React from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Button, Card, CardContent, Checkbox, FormControl, FormControlLabel, TextField, Typography } from '@material-ui/core';
 import { darken } from '@material-ui/core/styles/colorManipulator';
 import { makeStyles } from '@material-ui/styles';
-// import { FuseAnimate } from '@fuse';
+import {
+  Button,
+  Card,
+  CardContent,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  TextField,
+  Typography
+} from '@material-ui/core';
+import * as fuse from '@fuse';
 import { useForm } from '@fuse/hooks';
 import clsx from 'clsx';
 
 import * as Actions from 'app/store/actions';
 import auth0Service from 'app/services/auth0Service';
+import { SubmitEvent } from 'app/types';
 
-const { FuseAnimate } = require('@fuse');
+const { FuseAnimate }: any = fuse;
 
 const useStyles = makeStyles((theme: any) => ({
   root: {
-    background: 'radial-gradient(' + darken(theme.palette.primary.dark, 0.5) + ' 0%, ' + theme.palette.primary.dark + ' 80%)',
+    background:
+      'radial-gradient(' +
+      darken(theme.palette.primary.dark, 0.5) +
+      ' 0%, ' +
+      theme.palette.primary.dark +
+      ' 80%)',
     color: theme.palette.primary.contrastText
   }
 }));
 
-const RegisterPage: React.FC = () => {
+const RegisterPage: FC = () => {
   const dispatch = useDispatch();
-  const [hasAuth0, setHasAuth0] = React.useState(false);
+  const [hasAuth0, setHasAuth0] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     auth0Service.init((success: any) => {
       setHasAuth0(success);
     });
@@ -42,7 +57,11 @@ const RegisterPage: React.FC = () => {
 
   const isFormValid = () => {
     let errMessage = '';
-    if (form.username.length === 0 || form.email.length === 0 || form.password.length === 0) {
+    if (
+      form.username.length === 0 ||
+      form.email.length === 0 ||
+      form.password.length === 0
+    ) {
       errMessage = 'Please fill out all gaps!';
     } else if (form.password !== form.passwordConfirm) {
       errMessage = "Password doesn't match.";
@@ -66,10 +85,10 @@ const RegisterPage: React.FC = () => {
     return false;
   };
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: SubmitEvent): void => {
     event.preventDefault();
 
-    if (!isFormValid()) return false;
+    if (!isFormValid()) return;
 
     if (hasAuth0) {
       auth0Service
@@ -91,13 +110,25 @@ const RegisterPage: React.FC = () => {
         .catch(responseErr => {
           console.log(responseErr);
           let errMessage = 'Register failed!';
-          if (responseErr.hasOwnProperty('policy') && typeof responseErr.policy === 'string') {
+          if (
+            responseErr.hasOwnProperty('policy') &&
+            typeof responseErr.policy === 'string'
+          ) {
             errMessage = `${responseErr.policy}`;
-          } else if (responseErr.hasOwnProperty('message') && typeof responseErr.message === 'string') {
+          } else if (
+            responseErr.hasOwnProperty('message') &&
+            typeof responseErr.message === 'string'
+          ) {
             errMessage = `${responseErr.message}`;
-          } else if (responseErr.hasOwnProperty('description') && typeof responseErr.description === 'string') {
+          } else if (
+            responseErr.hasOwnProperty('description') &&
+            typeof responseErr.description === 'string'
+          ) {
             errMessage = `${responseErr.description}`;
-          } else if (responseErr.hasOwnProperty('name') && typeof responseErr.name === 'string') {
+          } else if (
+            responseErr.hasOwnProperty('name') &&
+            typeof responseErr.name === 'string'
+          ) {
             errMessage = `${responseErr.name}`;
           }
 
@@ -129,7 +160,12 @@ const RegisterPage: React.FC = () => {
   };
 
   return (
-    <div className={clsx(classes.root, 'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-32')}>
+    <div
+      className={clsx(
+        classes.root,
+        'flex flex-col flex-auto flex-shrink-0 items-center justify-center p-32'
+      )}
+    >
       <div className="flex flex-col items-center justify-center w-full">
         <FuseAnimate animation="transition.expandIn">
           <Card className="w-full max-w-384">
@@ -140,7 +176,12 @@ const RegisterPage: React.FC = () => {
                 CREATE AN ACCOUNT
               </Typography>
 
-              <form name="registerForm" noValidate className="flex flex-col justify-center w-full" onSubmit={handleSubmit}>
+              <form
+                name="registerForm"
+                noValidate
+                className="flex flex-col justify-center w-full"
+                onSubmit={handleSubmit}
+              >
                 <TextField
                   className="mb-16"
                   label="Name"
@@ -192,12 +233,24 @@ const RegisterPage: React.FC = () => {
 
                 <FormControl className="items-center">
                   <FormControlLabel
-                    control={<Checkbox name="acceptTermsConditions" checked={form.acceptTermsConditions} onChange={handleChange} />}
+                    control={
+                      <Checkbox
+                        name="acceptTermsConditions"
+                        checked={form.acceptTermsConditions}
+                        onChange={handleChange}
+                      />
+                    }
                     label="I read and accept terms and conditions"
                   />
                 </FormControl>
 
-                <Button variant="contained" color="primary" className="w-224 mx-auto mt-16" aria-label="Register" type="submit">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className="w-224 mx-auto mt-16"
+                  aria-label="Register"
+                  type="submit"
+                >
                   CREATE AN ACCOUNT
                 </Button>
               </form>

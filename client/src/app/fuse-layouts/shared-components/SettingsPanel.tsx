@@ -1,11 +1,12 @@
-import * as React from 'react';
+import React, { FC, useState, forwardRef } from 'react';
 import { Button, Typography, Dialog, Icon, IconButton, Slide } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { red } from '@material-ui/core/colors';
-// import { FuseScrollbars, FuseSettings } from '@fuse';
-const { FuseScrollbars, FuseSettings } = require('@fuse');
+import * as fuse from '@fuse';
 
-const Transition: any = React.forwardRef(function Transition(props, ref) {
+const { FuseScrollbars, FuseSettings }: any = fuse;
+
+const Transition: any = forwardRef((props, ref) => {
   return <Slide direction="left" ref={ref} {...props} />;
 });
 
@@ -59,21 +60,21 @@ const useStyles = makeStyles(
   })
 );
 
-function SettingsPanel() {
+const SettingsPanel: FC = () => {
   const classes: any = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
-  const handleOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
-    <React.Fragment>
-      <Button id="fuse-settings" className={classes.button} variant="contained" onClick={handleOpen}>
+    <>
+      <Button
+        id="fuse-settings"
+        className={classes.button}
+        variant="contained"
+        onClick={handleOpen}
+      >
         <Icon className={classes.buttonIcon}>settings</Icon>
       </Button>
 
@@ -101,8 +102,8 @@ function SettingsPanel() {
           <FuseSettings />
         </FuseScrollbars>
       </Dialog>
-    </React.Fragment>
+    </>
   );
-}
+};
 
 export default SettingsPanel;

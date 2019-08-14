@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
 
-const FooterLayout1: React.FC = () => {
+const FooterLayout1: FC = () => {
   const footerTheme = useSelector(({ fuse }: any) => fuse.settings.footerTheme);
 
   return (

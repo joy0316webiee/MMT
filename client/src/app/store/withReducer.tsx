@@ -1,8 +1,8 @@
-import * as React from 'react';
+import React, { PureComponent } from 'react';
 import { injectReducer } from 'app/store';
 
 const withReducer = (key: any, reducer: any) => (WrappedComponent: React.ComponentType) =>
-  class extends React.PureComponent {
+  class extends PureComponent {
     constructor(props: any) {
       super(props);
       injectReducer(key, reducer);

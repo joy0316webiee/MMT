@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 import { renderRoutes } from 'react-router-config';
 import { useSelector } from 'react-redux';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/styles';
-// import { FuseScrollbars, FuseMessage, FuseDialog, FuseSuspense } from '@fuse';
+import * as fuse from '@fuse';
 
 import AppContext from 'app/AppContext';
 import SettingsPanel from 'app/fuse-layouts/shared-components/SettingsPanel';
@@ -13,7 +13,7 @@ import NavbarWrapperLayout2 from './components/NavbarWrapperLayout2';
 import FooterLayout2 from './components/FooterLayout2';
 import RightSideLayout2 from './components/RightSideLayout2';
 
-const { FuseScrollbars, FuseMessage, FuseDialog, FuseSuspense } = require('@fuse');
+const { FuseScrollbars, FuseMessage, FuseDialog, FuseSuspense }: any = fuse;
 
 const useStyles = makeStyles(
   (theme: any): any => ({
@@ -67,7 +67,7 @@ const useStyles = makeStyles(
   })
 );
 
-const Layout2: React.FC = props => {
+const Layout2: FC = props => {
   const config = useSelector(({ fuse }: any) => fuse.settings.current.layout.config);
 
   const classes: any = useStyles(props);
@@ -79,11 +79,13 @@ const Layout2: React.FC = props => {
           {config.leftSidePanel.display && <LeftSideLayout2 />}
 
           <div className="flex flex-1 flex-col overflow-hidden relative">
-            {config.toolbar.display && config.toolbar.position === 'above' && <ToolbarLayout2 />}
-
+            {config.toolbar.display && config.toolbar.position === 'above' && (
+              <ToolbarLayout2 />
+            )}
             {config.navbar.display && <NavbarWrapperLayout2 />}
-
-            {config.toolbar.display && config.toolbar.position === 'below' && <ToolbarLayout2 />}
+            {config.toolbar.display && config.toolbar.position === 'below' && (
+              <ToolbarLayout2 />
+            )}
 
             <FuseScrollbars className={classes.content}>
               <FuseDialog />
@@ -93,12 +95,14 @@ const Layout2: React.FC = props => {
 
                 {props.children}
 
-                {config.footer.display && config.footer.style === 'static' && <FooterLayout2 />}
+                {config.footer.display && config.footer.style === 'static' && (
+                  <FooterLayout2 />
+                )}
               </div>
             </FuseScrollbars>
-
-            {config.footer.display && config.footer.style === 'fixed' && <FooterLayout2 />}
-
+            {config.footer.display && config.footer.style === 'fixed' && (
+              <FooterLayout2 />
+            )}
             <SettingsPanel />
           </div>
 

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Paper, Drawer, Hidden } from '@material-ui/core';
 import { makeStyles, ThemeProvider } from '@material-ui/styles';
@@ -37,7 +37,7 @@ const useStyles = makeStyles(
   })
 );
 
-const NavbarWrapperLayout2: React.FC = props => {
+const NavbarWrapperLayout2: FC = props => {
   const dispatch = useDispatch();
   const navbarTheme = useSelector(({ fuse }: any) => fuse.settings.navbarTheme);
   const navbar = useSelector(({ fuse }: any) => fuse.navbar);

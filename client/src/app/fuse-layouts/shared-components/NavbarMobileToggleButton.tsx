@@ -1,19 +1,23 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { Icon, IconButton } from '@material-ui/core';
 
 import * as Actions from 'app/store/actions';
+import { INavbarMobileToggleButtonProps } from './types';
 
-interface IProps {
-  className?: string;
-  children?: React.ReactNode;
-}
-
-const NavbarMobileToggleButton: React.FC<IProps> = ({ className, children }) => {
+const NavbarMobileToggleButton: FC<INavbarMobileToggleButtonProps> = ({
+  className,
+  children
+}) => {
   const dispatch = useDispatch();
 
   return (
-    <IconButton className={className} onClick={ev => dispatch(Actions.navbarToggleMobile())} color="inherit" disableRipple>
+    <IconButton
+      className={className}
+      onClick={ev => dispatch(Actions.navbarToggleMobile())}
+      color="inherit"
+      disableRipple
+    >
       {children}
     </IconButton>
   );

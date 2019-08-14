@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 import clsx from 'clsx';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme: any) => ({
   }
 }));
 
-const Logo: React.FC = () => {
+const Logo: FC = () => {
   const classes = useStyles();
 
   return (

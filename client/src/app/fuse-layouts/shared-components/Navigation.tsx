@@ -1,19 +1,24 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
 import clsx from 'clsx';
-// import { FuseNavigation } from '@fuse';
-const { FuseNavigation } = require('@fuse');
+import * as fuse from '@fuse';
 
-interface IProps {
-  className?: string;
-  layout: string | 'vertical';
-  dense?: boolean;
-}
+import { INavigationProps } from './types';
 
-const Navigation: React.FC<IProps> = ({ className, layout, dense, ...props }) => {
+const { FuseNavigation }: any = fuse;
+
+const Navigation: FC<INavigationProps> = ({ className, layout, dense, ...props }) => {
   const navigation = useSelector(({ fuse }: any) => fuse.navigation);
 
-  return <FuseNavigation className={clsx('navigation', className)} navigation={navigation} layout={layout} dense={dense} {...props} />;
+  return (
+    <FuseNavigation
+      className={clsx('navigation', className)}
+      navigation={navigation}
+      layout={layout}
+      dense={dense}
+      {...props}
+    />
+  );
 };
 
 export default Navigation;

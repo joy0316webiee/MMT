@@ -1,40 +1,42 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 import clsx from 'clsx';
 import { AppBar, Hidden, Icon } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-// import { FuseScrollbars } from '@fuse';
+import * as fuse from '@fuse';
 
 import Logo from 'app/fuse-layouts/shared-components/Logo';
 import UserNavbarHeader from 'app/fuse-layouts/shared-components/UserNavbarHeader';
 import NavbarFoldedToggleButton from 'app/fuse-layouts/shared-components/NavbarFoldedToggleButton';
 import NavbarMobileToggleButton from 'app/fuse-layouts/shared-components/NavbarMobileToggleButton';
 import Navigation from 'app/fuse-layouts/shared-components/Navigation';
+import { INavbarLayout1Props } from './types';
 
-const { FuseScrollbars } = require('@fuse');
+const { FuseScrollbars }: any = fuse;
 
 const useStyles = makeStyles({
   content: {
     overflowX: 'hidden',
     overflowY: 'auto',
     '-webkit-overflow-scrolling': 'touch',
-    background: 'linear-gradient(rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0) 30%), linear-gradient(rgba(0, 0, 0, 0.25) 0, rgba(0, 0, 0, 0) 40%)',
+    background:
+      'linear-gradient(rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0) 30%), linear-gradient(rgba(0, 0, 0, 0.25) 0, rgba(0, 0, 0, 0) 40%)',
     backgroundRepeat: 'no-repeat',
     backgroundSize: '100% 40px, 100% 10px',
     backgroundAttachment: 'local, scroll'
   }
 });
 
-interface IProps {
-  className: string;
-  children?: React.ReactNode;
-}
-
-const NavbarLayout1: React.FC<IProps> = ({ className }) => {
+const NavbarLayout1: FC<INavbarLayout1Props> = ({ className }) => {
   const classes = useStyles();
 
   return (
     <div className={clsx('flex flex-col overflow-hidden h-full', className)}>
-      <AppBar color="primary" position="static" elevation={0} className="flex flex-row items-center flex-shrink h-64 min-h-64 pl-20 pr-12">
+      <AppBar
+        color="primary"
+        position="static"
+        elevation={0}
+        className="flex flex-row items-center flex-shrink h-64 min-h-64 pl-20 pr-12"
+      >
         <div className="flex flex-1 pr-8">
           <Logo />
         </div>

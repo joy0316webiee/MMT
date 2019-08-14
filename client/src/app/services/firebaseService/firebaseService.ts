@@ -11,7 +11,9 @@ class firebaseService {
   init(success: any) {
     if (Object.entries(AUTH_CONFIG).length === 0 && AUTH_CONFIG.constructor === Object) {
       if (process.env.NODE_ENV === 'development') {
-        console.warn('Missing Firebase Configuration at src/app/services/firebaseService/firebaseServiceConfig.js');
+        console.warn(
+          'Missing Firebase Configuration at src/app/services/firebaseService/firebaseServiceConfig.js'
+        );
       }
       success(false);
       return;
@@ -26,7 +28,7 @@ class firebaseService {
     success(true);
   }
 
-  getUserData = (userId: any) => {
+  getUserData = (userId: string) => {
     if (!firebase.apps.length) {
       return;
     }
